@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordle Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game">
+        <label for="level-select">Choose a level:</label>
+        <select id="level-select" name="levels" aria-label="Game Level">
+            <option value="easy">Easy</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+        </select>
+        <div id="word-grid"></div>
+        <input type="text" id="guess-input" maxlength="8" placeholder="Enter your guess" />
+        <button id="guess-btn">Guess</button>
+        <div id="message"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

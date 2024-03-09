@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="src/style.css">
+</head>
+
+<body>
+
+    <svg width="300pt" height="300pt" viewBox="0 0 300 300">
+
+        <defs>
+            <!-- Define a filter with ID "glassEffect" -->
+            <!-- Filter 1-->
+            <filter id="glassEffect1" x="-20%" y="-20%" width="140%" height="140%">
+                <!-- Fill the entire filter region with a specified color and opacity -->
+                <feFlood result="flood" flood-color="#0D0D0D" flood-opacity="0.8" />
+                <!-- Composite the result of the flood operation with the SourceGraphic using the 'in' operator -->
+                <feComposite in="flood" result="mask" in2="SourceGraphic" operator="in" />
+                <!-- Apply Gaussian blur to the mask with a standard deviation of 5 -->
+                <feGaussianBlur in="mask" stdDeviation="2" result="blur" />
+                <!-- Apply a component transfer operation to the blurred mask -->
+                <feComponentTransfer in="blur" result="transfer">
+                    <!-- Define a function that adjusts alpha channel values based on a table -->
+                    <feFuncA type="table" tableValues="0 0.6 1" />
+                </feComponentTransfer>
+                <!-- Composite the SourceGraphic atop the adjusted blurred mask using the 'atop' operator -->
+                <feComposite in="SourceGraphic" in2="transfer" operator="atop" />
+            </filter>
+
+            <!-- Filter 2-->
+            <filter id="glassEffect2" x="-20%" y="-20%" width="140%" height="140%">
+                <!-- Fill the entire filter region with a specified color and opacity -->
+                <feFlood result="flood" flood-color="#2793F2" flood-opacity="0.8" />
+                <!-- Composite the result of the flood operation with the SourceGraphic using the 'in' operator -->
+                <feComposite in="flood" result="mask" in2="SourceGraphic" operator="in" />
+                <!-- Apply Gaussian blur to the mask with a standard deviation of 5 -->
+                <feGaussianBlur in="mask" stdDeviation="2" result="blur" />
+                <!-- Apply a component transfer operation to the blurred mask -->
+                <feComponentTransfer in="blur" result="transfer">
+                    <!-- Define a function that adjusts alpha channel values based on a table -->
+                    <feFuncA type="table" tableValues="0 1 0.8" />
+                </feComponentTransfer>
+                <!-- Composite the SourceGraphic atop the adjusted blurred mask using the 'atop' operator -->
+                <feComposite in="SourceGraphic" in2="transfer" operator="atop" />
+            </filter>
+
+        </defs>
+
+        <!-- Original triangle -->
+        <path id="outterTriangle" transform="translate(0, 0) scale(1, 1)" fill="#0D0D0D" filter="url(#glassEffect1)"
+            stroke="none" stroke-width="0.72" stroke-linecap="square" stroke-linejoin="bevel" d="M0 300L300 0L300 300Z"
+            sodipodi:nodetypes="cccc" />
+
+        <!-- Scaled triangle based on the percentage -->
+        <path id="innerTriangle" transform="translate(0, 90) scale(0.7, 0.7)" fill="#2793F2" filter="url(#glassEffect2)"
+            stroke="none" stroke-width="0.72" stroke-linecap="square" stroke-linejoin="bevel" d="M0 300L300 0L300 300Z"
+            sodipodi:nodetypes="cccc" />
+
+
+        <text id="units" krita:useRichText="true" text-rendering="auto" krita:textVersion="3"
+            transform="translate(50, 50)" fill="#F2F2F2" stroke-opacity="0" stroke="#000000" stroke-width="0"
+            stroke-linecap="square" stroke-linejoin="bevel" letter-spacing="0"
+            style="text-align: center;font-family: Ubuntu;font-size: 36;font-weight: 700;">
+            <!-- Adjusted position of tspan to the center -->
+            <tspan x="100" y="200">100%</tspan>
+        </text>
+    </svg>
+
+    <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- Circle representing the outer frame -->
+        <circle cx="100" cy="100" r="80" fill="#F0F0F0" stroke="#333" stroke-width="3" />
+
+        <!-- Arc representing the meter's base -->
+        <path d="M 100 100 L 20 100 A 80 80 0 0 1 180 100 Z" fill="#DDD" stroke="#333" stroke-width="2" />
+
+        <!-- Needle -->
+        <path d="M 100 100 L 100 60 L 96 100 L 104 100 Z" fill="#F00" stroke="#F00" stroke-width="2" />
+
+        <!-- Text indicating the metric value -->
+        <text x="100" y="130" text-anchor="middle" font-family="Arial" font-size="20" fill="#333">50 GPM</text>
+    </svg>
+
+    <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- Gray base donut ring -->
+        <circle cx="100" cy="100" r="80" fill="#ccc" />
+
+        <!-- Light blue fill based on the percentage -->
+        <path d="M100,20 A80,80 0 0,1 180,100 L100,100 Z" fill="#ADD8E6" />
+
+        <!-- Actual value and units text in the center -->
+        <text x="100" y="105" text-anchor="middle" font-family="Arial" font-size="18" fill="#333">50%</text>
+        <text x="100" y="125" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">Filling</text>
+    </svg>
+
+
+
+    <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- Gray base donut ring -->
+        <circle cx="100" cy="100" r="80" fill="#ccc" />
+
+        <!-- Light blue fill based on the percentage -->
+        <path d="M100,20 A80,80 0 0,1 180,100 A80,80 0 0,1 100,180 A80,80 0 0,1 20,100 A80,80 0 0,1 100,20 Z"
+            fill="#ADD8E6" />
+
+        <!-- Actual value and units text in the center -->
+        <text x="100" y="100" text-anchor="middle" font-family="Arial" font-size="18" fill="#333">50%</text>
+        <text x="100" y="120" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">Filling</text>
+    </svg>
+
+
+    <script src="src/script.js"></script>
+
+    <svg width="200" height="200" viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- Gray base toroid -->
+        <path d="M80 0 A80 80 0 1 1 -80 0 A80 80 0 1 1 80 0 Z" fill="#ccc" />
+
+        <!-- Light blue fill based on the percentage -->
+        <path d="M80 0 A80 80 0 1 1 -80 0 A80 80 0 1 1 80 0 Z" fill="#ADD8E6"
+            transform="rotate(-90) scale(0.5) rotate(90)" />
+
+        <!-- Actual value and units text in the center -->
+        <text x="0" y="5" text-anchor="middle" font-family="Arial" font-size="18" fill="#333">50%</text>
+        <text x="0" y="25" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">Filling</text>
+    </svg>
+
+    <svg width="200" height="200" viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- Outer circle -->
+        <path d="M80 0 A80 80 0 0 1 -80 0 A80 80 0 0 1 80 0 Z" fill="#ccc" />
+
+        <!-- Inner circle with filling color -->
+        <path d="M50 0 A50 50 0 0 1 -50 0 A50 50 0 0 1 50 0 Z" fill="#ADD8E6" />
+
+        <!-- Gap between circles -->
+        <path d="M80 0 A80 80 0 0 1 50 0 A50 50 0 0 1 80 0 ZM-80 0 A80 80 0 0 0 -50 0 A50 50 0 0 0 -80 0 Z"
+            fill="white" />
+
+        <!-- Actual value and units text in the center -->
+        <text x="0" y="5" text-anchor="middle" font-family="Arial" font-size="18" fill="#333">50%</text>
+        <text x="0" y="25" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">Filling</text>
+    </svg>
+
+
+    <svg width="200" height="200" viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- Outer circle -->
+        <path d="M80 0 A80 80 0 0 1 -80 0 A80 80 0 0 1 80 0 Z" fill="#ccc" />
+
+        <!-- Inner circle -->
+        <path d="M50 0 A50 50 0 0 1 -50 0 A50 50 0 0 1 50 0 Z" fill="#fff" />
+
+        <!-- Water level based on percentage -->
+        <path d="M50 0
+                 A50 50 0 0 1 
+                 50 -50 
+                 L50 0 Z" fill="#ADD8E6" transform="rotate(-45)" />
+
+        <!-- Water level label -->
+        <text x="0" y="30" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">Water Level: 50%</text>
+    </svg>
+
+    <svg width="200" height="200" viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- Outer circle -->
+        <path d="M80 0 A80 80 0 0 1 -80 0 A80 80 0 0 1 80 0 Z" fill="#ccc" />
+
+
+        <path d="
+                M100,100                   <!-- Move to the center of the circle -->
+                L200,100                   <!-- Draw a line to the right edge -->
+                A100,100 0 0 1 100,0       <!-- Draw an arc from the right edge to the top -->
+                Z                          <!-- Close the path -->
+              " fill="#6495ED" <!-- Fill color -->
+            />
+
+
+
+            <!-- Inner circle -->
+            <path d="M50 0 A50 50 0 0 1 -50 0 A50 50 0 0 1 50 0 Z" fill="#fff" />
+
+
+
+            <!-- Water level label -->
+            <text x="0" y="30" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">Water Level:
+                50%</text>
+    </svg>
+
+
+
+
+</body>
+
+</html>

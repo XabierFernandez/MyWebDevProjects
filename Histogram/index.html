@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PV Plant Power Energy Histogram</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="powerEnergyChart" width="800" height="400"></canvas>
+    <button onclick="toggleChartType()">Toggle Chart Type</button>
+
+    <script>
+        let myChart;
+
+        // Function to toggle between bar and area chart types
+        function toggleChartType() {
+            if (myChart) {
+                myChart.destroy(); // Destroy the previous chart if it exists
+            }
+
+            const ctx = document.getElementById('powerEnergyChart').getContext('2d');
+            const chartType = myChart && myChart.config.type === 'bar' ? 'line' : 'bar';
+
+            myChart = new Chart(ctx, {
+                type: chartType,
+                data: {
+                    labels: bins.map(bin => `${bin.lowerBound.toFixed(2)} - ${bin.upperBound.toFixed(2)}`),
+                    datasets: [{
+                        label: chartType === 'bar' ? 'Stations in Bin' : 'Cumulative Stations',
+                        data: chartType === 'bar' ? bins.map(bin => bin.stations.length) : bins.map(bin => bin.cumulativeSum),
+                        backgroundColor: chartType === 'bar' ? 'rgba(54, 162, 235, 0.2)' : 'rgba(255, 99, 132, 0.2)',
+                        borderColor: chartType === 'bar' ? 'rgba(54, 162, 235, 1)' : 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    tooltips: {
+                        callbacks: {
+                            title: function(tooltipItem, data) {
+                                const binIndex = tooltipItem[0].index;
+                                return `Power Range: ${bins[binIndex].lowerBound.toFixed(2)} - ${bins[binIndex].upperBound.toFixed(2)}`;
+                            },
+                            label: function(tooltipItem, data) {
+                                const binIndex = tooltipItem.index;
+                                return chartType === 'bar' ? `Stations: ${bins[binIndex].stations.join(', ')}` : `Cumulative Stations: ${bins[binIndex].cumulativeSum}`;
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Generate 50 random values between 900 and 1000
+        const powerEnergyData = Array.from({ length: 50 }, () => Math.floor(Math.random() * (1000 - 900 + 1)) + 900);
+
+        // Sort the power energy data
+        powerEnergyData.sort((a, b) => a - b);
+
+        // Calculate the bins
+        const numBins = 10;
+        const binSize = (powerEnergyData[powerEnergyData.length - 1] - powerEnergyData[0]) / numBins;
+        const bins = Array.from({ length: numBins }, (_, i) => ({
+            lowerBound: powerEnergyData[0] + i * binSize,
+            upperBound: powerEnergyData[0] + (i + 1) * binSize,
+            stations: [], // Initialize stations array for each bin
+            cumulativeSum: 0
+        }));
+
+        // Assign stations to bins
+        for (let i = 0; i < powerEnergyData.length; i++) {
+            const station = i + 1;
+            const value = powerEnergyData[i];
+            let binIndex = bins.findIndex(bin => value >= bin.lowerBound && value < bin.upperBound);
+            if (binIndex === -1) {
+                // Handle the case where the value is exactly equal to the upper bound of the last bin
+                binIndex = bins.length - 1;
+            }
+            bins[binIndex].stations.push(station);
+            bins[binIndex].cumulativeSum++;
+        }
+
+        // Create initial histogram as a bar chart
+        toggleChartType();
+    </script>
+</body>
+</html>

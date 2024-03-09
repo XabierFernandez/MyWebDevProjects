@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Zoom Detail Example</title>
+    <style>
+        .zoom-level { display: none; }
+    </style>
+</head>
+<body>
+    <svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <rect width="400" height="400" x="50" y="40" rx="20" ry="20" fill="blue" />
+        <text id="zoomText" x="60" y="55" fill="white" font-family="Arial" font-size="14">Zoom Level: 1</text>
+        <!-- Define various components with different classes -->
+        <circle class="zoom-level level-100" cx="100" cy="100" r="10" fill="red" />
+        <circle class="zoom-level level-200" cx="100" cy="100" r="20" fill="green" />
+        <!-- Add more elements for each level up to level-10 -->
+    </svg>
+
+    <script src="zoom-detection.js"></script>
+</body>
+</html>

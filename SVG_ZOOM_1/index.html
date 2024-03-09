@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SVG Pan and Zoom</title>
+<style>
+  svg {
+    border: 1px solid black; /* To visualize the SVG boundaries */
+    cursor: grab;
+  }
+  svg:active {
+    cursor: grabbing;
+  }
+</style>
+</head>
+<body>
+
+<div id="svgContainer">
+  <svg id="svgPanZoom" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background rectangle -->
+    <rect width="200" height="200" fill="white" />
+    <!-- Circles -->
+    <circle cx="50" cy="50" r="10" fill="red" />
+    <circle cx="150" cy="50" r="10" fill="blue" />
+    <circle cx="50" cy="150" r="10" fill="green" />
+    <circle cx="150" cy="150" r="10" fill="yellow" />
+  </svg>
+</div>
+
+<script src="panZoom.js"></script>
+</body>
+</html>
